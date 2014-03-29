@@ -53,6 +53,7 @@ $rfg_photo_source_map = array(
     'group' => 'Group',
     'tags' => 'Tags',
     'popular' => 'My Popular Photos',
+    'photosets' => 'List of Photosets',
 );
 
 $rfg_width_map = array(
@@ -183,10 +184,6 @@ function rfg_fb_like_box()
     return '';
 }
 
-function rfg_share_box()
-{
-    return "";
-}
 
 function rfg_gplus_box()
 {
@@ -207,6 +204,13 @@ function rfg_get_photo_url($farm, $server, $pid, $secret, $size)
         $size = '';
     }
     return "http://farm$farm.static.flickr.com/$server/{$pid}_$secret$size.jpg";
+}
+function rfg_get_photoset_url($farm, $server, $primary, $secret, $size)
+{
+    if ($size == 'NULL') {
+        $size = '';
+    }
+    return "http://farm$farm.static.flickr.com/$server/{$primary}_$secret$size.jpg";
 }
 
 function rfg_get_photo_page_url($pid, $uid)
@@ -434,41 +438,6 @@ function get_rfg_option($gallery, $var)
 {
     if (isset($gallery[$var]) && $gallery[$var]) return $gallery[$var];
     else return get_option('rfg_' . $var);
-}
-
-function rfgDonateBox()
-{
-    return <<<EOD
-<div class="postbox">
-  <div class="inside">
-    <h3>Free or with license key</h3>
-    A <a href="http://www.ocx.de/responsive-flickr-gallery" target="_blank">license key is required</a> for businesses and commercial sites. 
-    For personal blogs no license key is required but <b>donations are welcome</b>.<br />
-    <br />
-    It is hard to continue development and support for this plugin without contributions from users like you. 
-    Especially since this plugin is young and sale of license keys for commercial sites hasn't been well established.
-    So if you enjoy using Responsive Flickr Gallery and find it useful, please consider making a donation. 
-    Your donation will help encourage and support the plugin’s continued development and better user support.<br />
-    <br />
-    </form>
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" >
-    <div style="text-align:center" class="paypal-donations">
-    <input type="hidden" name="cmd" value="_s-xclick">
-    <input type="hidden" name="hosted_button_id" value="G34C7BDW8499Q">
-    <input type="image" src="https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-    </div></form>
-    <br />
-    Donations also welcome by Bitcoin or Litecoin:<br />
-    <a href="bitcoin:1LY77g2LpxX6QC3xu9EUEponwKgvZfvFWb">1LY77g2LpxX6QC3xu9EUEponwKgvZfvFWb</a><br />
-    <a href="litecoin:LMYPtmBS2fP6pa12iUT2szYkWDR36KNmRv">LMYPtmBS2fP6pa12iUT2szYkWDR36KNmRv</a><br />
-    <br />
-    Found a bug or need a new feature?<br />
-    Head to <a href="https://github.com/schenk/responsive-flickr-gallery/issues">github issues</a> for solutions.<br />
-    Contributors and feature requests welcome. Bounties can speed up the development process.
-  </div> 
-</div> 
-EOD;
 }
 
 function rfg_reference_box()

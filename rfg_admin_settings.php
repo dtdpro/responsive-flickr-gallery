@@ -1,13 +1,13 @@
 <?php
 /*
-   This file is part of the Responsive Flickr Gallery.
+   This file is part of the DtD Flickr Gallery.
 
-   Responsive Flickr Gallery is free software: you can redistribute it and/or modify
+   DtD Flickr Gallery is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
 
-   Responsive Flickr Gallery is distributed in the hope that it will be useful,
+   DtD Flickr Gallery is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
@@ -28,11 +28,11 @@ add_action('wp_ajax_rfg_gallery_auth', 'rfg_auth_init');
 
 function rfg_admin_menu()
 {
-    add_menu_page('Responsive Flickr Gallery', 'Responsive Flickr Gallery', 'create_users', 'rfg_plugin_page', 'rfg_admin_html_page', BASE_URL . "/images/rfg_logo.png", 898);
-    $rfg_main_page = add_submenu_page('rfg_plugin_page', 'Default Settings | Responsive Flickr Gallery', 'Default Settings', 'create_users', 'rfg_plugin_page', 'rfg_admin_html_page');
-    $rfg_add_page = add_submenu_page('rfg_plugin_page', 'Add Gallery | Responsive Flickr Gallery', 'Add Gallery', 'moderate_comments', 'rfg_add_gallery_page', 'rfg_add_gallery');
-    $rfg_saved_page = add_submenu_page('rfg_plugin_page', 'Saved Galleries | Responsive Flickr Gallery', 'Saved Galleries', 'moderate_comments', 'rfg_view_edit_galleries_page', 'rfg_view_delete_galleries');
-    $rfg_edit_page = add_submenu_page('rfg_plugin_page', 'Edit Galleries | Responsive Flickr Gallery', 'Edit Galleries', 'moderate_comments', 'rfg_edit_galleries_page', 'rfg_edit_galleries');
+    add_menu_page('DtD Flickr Gallery', 'DtD Flickr Gallery', 'create_users', 'rfg_plugin_page', 'rfg_admin_html_page', BASE_URL . "/images/rfg_logo.png", 898);
+    $rfg_main_page = add_submenu_page('rfg_plugin_page', 'Default Settings | DtD Flickr Gallery', 'Default Settings', 'create_users', 'rfg_plugin_page', 'rfg_admin_html_page');
+    $rfg_add_page = add_submenu_page('rfg_plugin_page', 'Add Gallery | DtD Flickr Gallery', 'Add Gallery', 'moderate_comments', 'rfg_add_gallery_page', 'rfg_add_gallery');
+    $rfg_saved_page = add_submenu_page('rfg_plugin_page', 'Saved Galleries | DtD Flickr Gallery', 'Saved Galleries', 'moderate_comments', 'rfg_view_edit_galleries_page', 'rfg_view_delete_galleries');
+    $rfg_edit_page = add_submenu_page('rfg_plugin_page', 'Edit Galleries | DtD Flickr Gallery', 'Edit Galleries', 'moderate_comments', 'rfg_edit_galleries_page', 'rfg_edit_galleries');
    
     add_action('admin_print_styles-' . $rfg_edit_page, 'rfg_edit_galleries_header');
     add_action('admin_print_styles-' . $rfg_add_page, 'rfg_edit_galleries_header');
@@ -123,9 +123,6 @@ function rfg_admin_init()
     register_setting('rfg_settings_group', 'rfg_custom_css');
     register_setting('rfg_settings_group', 'rfg_sort_order');
     register_setting('rfg_settings_group', 'rfg_cache_ttl');
-    register_setting('rfg_settings_group', 'rfg_license_key');
-    register_setting('rfg_settings_group', 'rfg_ca_pub');
-
     // Register javascripts
     wp_register_script('edit-galleries-script', BASE_URL . '/js/rfg_edit_galleries.js');
     wp_register_script('admin-settings-script', BASE_URL . '/js/rfg_admin_settings.js');
@@ -151,8 +148,6 @@ function rfg_get_all_options()
         'rfg_flickr_token' => get_option('rfg_flickr_token'),
         'rfg_slideshow_option' => get_option('rfg_slideshow_option'),
         'rfg_cache_ttl' => get_option('rfg_cache_ttl'),
-        'rfg_license_key' => get_option('rfg_license_key'),
-        'rfg_ca_pub' => get_option('rfg_ca_pub'),
     );
 }
 
@@ -200,7 +195,7 @@ function rfg_admin_html_page()
            $rfg_slideshow_map,
            $rfg_cache_ttl_map;
     ?>
-    <h2><img src="<?php echo (BASE_URL . '/images/logo_big.png'); ?>" align='center'/>Responsive Flickr Gallery Settings</h2>
+    <h2><img src="<?php echo (BASE_URL . '/images/logo_big.png'); ?>" align='center'/>DtD Flickr Gallery Settings</h2>
 
     <?php
     function upgradeHandler()
@@ -243,8 +238,6 @@ function rfg_admin_html_page()
             update_option('rfg_width', $_POST['rfg_width']);
             update_option('rfg_bg_color', $_POST['rfg_bg_color']);
             update_option('rfg_cache_ttl', $_POST['rfg_cache_ttl']);
-            update_option('rfg_license_key', $_POST['rfg_license_key']);
-            update_option('rfg_ca_pub', $_POST['rfg_ca_pub']);
 
             if (isset($_POST['rfg_credit_note']) && $_POST['rfg_credit_note']) update_option('rfg_credit_note', 'on');
             else update_option('rfg_credit_note', 'off');
@@ -254,7 +247,7 @@ function rfg_admin_html_page()
 
             echo "<div class='updated'><p><strong>Settings updated successfully.</br></br><font style='color:red'>Important Note:</font> If you have installed a caching plugin (like WP Super Cache or W3 Total Cache etc.), you may have to delete your cached pages for the settings to take effect.</strong></p></div>";
             if (get_option('rfg_api_secret') && !get_option('rfg_flickr_token')) {
-                echo "<div class='updated'><p><strong>Click \"Grant Access\" button to authorize Responsive Flickr Gallery to access your private photos from Flickr.</strong></p></div>";
+                echo "<div class='updated'><p><strong>Click \"Grant Access\" button to authorize DtD Flickr Gallery to access your private photos from Flickr.</strong></p></div>";
             }
         }
         create_afgFlickr_obj();
@@ -411,60 +404,11 @@ function rfg_admin_html_page()
                                      Set high if galleries don't change often to save "expensive" API calls 
                                      and speed up the galleries on your site.</font></td>
                               </tr>
-                              <tr valign='top'>
-                                  <th scope='row'>Publisher ID</th>
-                                  <td>ca-pub-<input type='text' name='rfg_ca_pub' size='20' value="<?php echo get_option('rfg_ca_pub'); ?>" ></input> </td>
-                                  <td><font size='2'>Monetize your galleries with Google Adsense .</a></font></td>
-                              </tr>
                               </table>
                         </div>
                         </div>
 
-               <div class="postbox">
-               <div class="inside">
-                        <h3>Responsive Flickr Gallery License</h3>
-                        <table class='form-table'>
-                           <tr valign='top'>
-                              <th scope='row'>License Key</th>
-                              <td style='width:28%'><input type='text' name='rfg_license_key' size='30' value="<?php echo get_option('rfg_license_key'); ?>" ></input> </td>
-                              <td><font size='2'>Don't have a License Key? Get one from <a href="http://www.ocx.de/responsive-flickr-gallery" target='blank'>here.</a></font></td>
-                           </tr>
-                           <tr valign='top'>
-                              <th scope='row'>License Information:</th>
-                              <td colspan="2">
-    <?php
-    $vl = false;
-    list($username, $crc32, $productkey, $expiredate) = explode(';', base64_decode(get_option('rfg_license_key')));
-    $validExpiredate = $expiredate > time();
-    if ($productkey == md5('Reponsive Flickr Gallery Pro')
-        && (hash("crc32b", $username.$productkey.$expiredate) == $crc32) 
-    ) {
-        echo "Reponsive Flickr Gallery Pro<br />";
-        echo "Licensed to: <b>$username</b><br />";
-        if ($validExpiredate) {
-            echo "Valid until: ".date("Y-m-d", $expiredate);
-            echo "<br /><br /><small>Your Google Adsense Publisher ID will receive 100% of the impressions.<br /> ";
-            echo "To disable Google Adsense let the Publisher ID empty.</small>";
-            $vl = true;
-        } else {
-            echo "Expired since: ".date("Y-m-d", $expiredate);
-            echo "Renew the license at <a href=\"http://www.ocx.de/responsive-flickr-gallery\" target='blank'>here.</a><br />";
-            echo "<small>";
-        }
-    } 
-    if (!$vl) {
-        echo "No valid license found. ";
-        echo "Get one from <a href=\"http://www.ocx.de/responsive-flickr-gallery\" target='blank'>here.</a><br />";
-        echo "<br /><small>Google Adsense impressions will be shared 50/50.<br /> ";
-        echo "Buy or renew your <strong>Pro</strong> license to get 100% of the Google Adsense impressions<br />";
-        echo "or to disable Google Adsense if you prefer to keep you site free of ads.</small>";
-    }
-    ?>
-                              </td>
-                           </tr>
-                        </table>
-                     </div>
-                  </div>
+
 
                         <input type="submit" name="submit" id="rfg_save_changes" class="button-primary" value="Save Changes" />
                         <br /><br />
@@ -525,8 +469,6 @@ function rfg_admin_html_page()
         <br /><p style='text-align:center'><i>-- OR --</i></p>You can create a new Responsive Flickr Gallery with different settings on page <a href='{$_SERVER['PHP_SELF']}?page=rfg_add_gallery_page'>Add Galleries.";
     echo rfg_box('Usage Instructions', $message);
 
-    echo rfgDonateBox(); 
-    echo rfg_share_box();
     ?>
     </div>
             </form>
